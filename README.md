@@ -3,7 +3,7 @@
 [1]: https://travis-ci.org/imdario/medeina.png
 [2]: https://travis-ci.org/imdario/medeina
 
-[Medeina](https://github.com/imdario/medeina) is a Go routing tree based on [HttpRouter](https://github.com/julienschmidt/httprouter) and inspired by Ruby's [Roda](http://roda.jeremyevans.net/) and [Cuba](http://cuba.is/). It allows to define your routes as a tree, operating on the current route at any point of the tree.
+[Medeina](https://github.com/imdario/medeina) is a Go routing tree based on [HttpRouter](https://github.com/julienschmidt/httprouter) and inspired by Ruby's [Roda](http://roda.jeremyevans.net/) and [Cuba](http://cuba.is/). It allows to define the HTTP routes of your web application as a tree, operating on the current route at any point of the tree.
 
 As stated in Roda's website, "this allows you to have much DRYer code". All the routes can have all the features of HttpRouter: named paramaters, catch-all parameters, etc.
 
