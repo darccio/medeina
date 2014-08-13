@@ -58,16 +58,16 @@ And this for a quick and dirty "REST-like" API (ignore the fact that I'm using a
         r.On(endpoint, func() {
             r.GET(func() {
                 r.Is(":id", Model)
-            }
+            })
             r.POST(func() {
                 r.Is("", Model)
-            }
+            })
             r.PUT(func() {
                 r.Is("", Model)
-            }
+            })
             r.DELETE(func() {
                 r.Is(":id", Model)
-            }
+            })
         })
     }
 
