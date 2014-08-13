@@ -344,7 +344,7 @@ func loadMedeina() http.Handler {
 	})
 	mr.On("repos/:owner/:repo", func() {
 		mr.GET(func() {
-			endpoints := []string {
+			endpoints := []string{
 				"", "events", "notifications", "stargazers", "subscribers",
 				"contributors", "languages", "teams", "tags", "readme", "forks",
 				"assignees", "assignees/:assignee", "milestones",
@@ -356,7 +356,7 @@ func loadMedeina() http.Handler {
 		})
 		mr.Is("subscription", testHandlerParams, GET, PUT, DELETE)
 		mr.On("git", func() {
-			endpoints :=[]string {
+			endpoints := []string{
 				"blobs", "commits", "refs", "tags", "trees",
 			}
 			for _, endpoint := range endpoints {
@@ -374,7 +374,7 @@ func loadMedeina() http.Handler {
 			mr.GET(func() {
 				mr.Is("", testHandlerParams)
 				mr.On(":number", func() {
-					endpoints := []string {
+					endpoints := []string{
 						"", "comments", "events", "labels",
 					}
 					setEndpoints(mr, testHandlerParams, endpoints)
@@ -384,7 +384,7 @@ func loadMedeina() http.Handler {
 		mr.Is("pulls", testHandlerParams, GET, POST)
 		mr.On("pulls/:number", func() {
 			mr.GET(func() {
-				endpoints := []string {
+				endpoints := []string{
 					"commits", "files", "merge", "comments",
 				}
 				setEndpoints(mr, testHandlerParams, endpoints)
@@ -402,9 +402,9 @@ func loadMedeina() http.Handler {
 			mr.POST(f)
 			mr.Is(":sha", testHandlerParams, GET)
 		})
-		mr.On("stats",func() {
+		mr.On("stats", func() {
 			mr.GET(func() {
-				endpoints := []string {
+				endpoints := []string{
 					"contributors", "commit_activity", "code_frequency",
 					"participation", "punch_card",
 				}
@@ -445,11 +445,11 @@ func loadMedeina() http.Handler {
 	})
 	mr.On("orgs/:org", func() {
 		mr.GET(func() {
-			endpoints := []string {
+			endpoints := []string{
 				"", "repos", "events", "issues", "teams",
 			}
 			setEndpoints(mr, testHandler, endpoints)
-			endpoints = []string {
+			endpoints = []string{
 				"members", "public_members",
 			}
 			for _, endpoint := range endpoints {
@@ -460,7 +460,7 @@ func loadMedeina() http.Handler {
 			}
 		})
 		mr.POST(func() {
-			endpoints := []string {
+			endpoints := []string{
 				"repos", "teams",
 			}
 			setEndpoints(mr, testHandler, endpoints)
@@ -475,7 +475,7 @@ func loadMedeina() http.Handler {
 	})
 	mr.On("users/:user", func() {
 		mr.GET(func() {
-			endpoints := []string {
+			endpoints := []string{
 				"", "received_events", "received_events/public", "events",
 				"events/public", "events/orgs/:org", "starred", "subscriptions",
 				"orgs", "repos", "followers", "following", "keys",
@@ -503,7 +503,7 @@ func loadMedeina() http.Handler {
 		f("members", ":user")
 	})
 	mr.GET(func() {
-		endpoints := []string {
+		endpoints := []string{
 			"emojis", "gitignore/templates", "gitignore/templates/:name", "meta",
 			"rate_limit", "events", "networks/:owner/:repo/events", "feeds",
 			"search/repositories", "search/code", "search/issues", "search/users",
@@ -609,7 +609,7 @@ func TestOpposite(t *testing.T) {
 	routes := make(map[string][]string)
 	for _, route := range githubAPI {
 		if _, ok := routes[route.path]; !ok {
-			routes[route.path] = []string {
+			routes[route.path] = []string{
 				"GET", "DELETE", "PATCH", "POST", "PUT",
 			}
 		}

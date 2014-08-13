@@ -13,9 +13,9 @@ type Router struct {
 }
 
 type Medeina struct {
-	router *Router
+	router  *Router
 	methods *lane.Stack
-	path *lane.Deque
+	path    *lane.Deque
 }
 
 type Handle func()
@@ -23,10 +23,10 @@ type Handle func()
 type Method string
 
 const (
-	GET = "GET"
-	POST = "POST"
-	PUT = "PUT"
-	PATCH = "PATCH"
+	GET    = "GET"
+	POST   = "POST"
+	PUT    = "PUT"
+	PATCH  = "PATCH"
 	DELETE = "DELETE"
 )
 
@@ -58,12 +58,12 @@ var (
 
 // Returns a new initialized Router with default httprouter's one.
 func NewMedeina() *Medeina {
-	return &Medeina {
-		router: &Router {
+	return &Medeina{
+		router: &Router{
 			httprouter.New(),
 		},
 		methods: lane.NewStack(),
-		path: lane.NewDeque(),
+		path:    lane.NewDeque(),
 	}
 }
 
@@ -103,7 +103,7 @@ func (m *Medeina) On(path string, handles ...Handle) {
 	m.path.Pop()
 }
 
-func (m *Medeina) OnFunc(path string, handle func (*Medeina)) {
+func (m *Medeina) OnFunc(path string, handle func(*Medeina)) {
 	m.path.Append(path)
 	handle(m)
 	m.path.Pop()
