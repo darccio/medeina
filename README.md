@@ -1,4 +1,4 @@
-# medeina [![Build Status][1]][2] [![GoDoc](https://godoc.org/github.com/imdario/medeina?status.svg)](https://godoc.org/github.com/imdario/medeina) [![Coverage Status](https://img.shields.io/coveralls/imdario/medeina.svg)](https://coveralls.io/r/imdario/medeina)
+# Medeina [![Build Status][1]][2] [![GoDoc](https://godoc.org/github.com/imdario/medeina?status.svg)](https://godoc.org/github.com/imdario/medeina)
 
 [1]: https://travis-ci.org/imdario/medeina.png
 [2]: https://travis-ci.org/imdario/medeina
@@ -11,7 +11,7 @@ Actually, Medeina inherits all the performance and flexibility you love in HttpR
 
 ## Status
 
-Medeina is fully functional but it still green and young. It may lack some useful functionality. If you use HttpRouter, give Medeina a try. All real world experience is welcome.
+Medeina is fully functional and tested but it's still green and young. It may lack some useful functionality. If you use HttpRouter, give Medeina a try. All real world experience is welcome.
 
 ## Install
 
@@ -89,7 +89,7 @@ Or it's "shorter" (YMMV) form:
 
     log.Fatal(http.ListenAndServe(":8080", r))
 
-What does "" means? It matches the current path in your route. It is a way to easily match the scope itself as canonical URL.
+What does "" means? It matches the current path in your route. It's a way to easily match the scope itself as canonical URL.
 
 ## Why HttpRouter?
 
@@ -101,7 +101,7 @@ If you don't know [HttpRouter](https://github.com/julienschmidt/httprouter), ple
 
 From [Wikipedia](https://en.wikipedia.org/wiki/Medeina):
 
-    Medeina or Medeinė (derived from medis (tree) and medė (forest)), [...] is one of the main deities in the Lithuanian mythology, similar to Latvian Meža Māte. She is a ruler of forests, trees and animals. Her sacred animal is a hare.
+> Medeina or Medeinė (derived from medis (tree) and medė (forest)), [...] is one of the main deities in the Lithuanian mythology, similar to Latvian Meža Māte. She is a ruler of forests, trees and animals. Her sacred animal is a hare.
 
 Hey, we were talking about trees. It fits right! Also, this project can join my other ones, also called by names starting by 'm': [Mergo](https://github.com/imdario/mergo), [Minshu](https://github.com/imdario/minshu), [mqqsig192](https://github.com/imdario/mqqsig192), etc. Don't ask, it wasn't on purpose.
 
