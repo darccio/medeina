@@ -1,7 +1,8 @@
-// Copyright 2013 Julien Schmidt, 2014 Dario Castañé. All rights reserved.
+// Copyright 2013 Julien Schmidt, All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 // Adapted from julienschmidt/go-http-routing-benchmark/github_test.go
+// Copyright (c) 2014 Dario Castañé. Licensed under the MIT License.
 
 package medeina
 
@@ -289,12 +290,14 @@ func init() {
 	medeina = loadMedeina()
 }
 
+// Hack to refactor some common patterns.
 func setEndpoints(mr *Medeina, handler httprouter.Handle, endpoints []string) {
 	for _, endpoint := range endpoints {
 		mr.Is(endpoint, handler)
 	}
 }
 
+// Hack to refactor some common patterns.
 func setBasicEndpoints(mr *Medeina, name string, post, del bool) {
 	mr.On(name, func() {
 		mr.GET(func() {
@@ -310,6 +313,8 @@ func setBasicEndpoints(mr *Medeina, name string, post, del bool) {
 	})
 }
 
+// Builds a Medeina router creating an exact copy of githubAPI.
+// It's a mess **on purpose**. I wanted to use different styles of working with Medeina, in order to find any pitfalls.
 func loadMedeina() http.Handler {
 	mr := NewMedeina()
 	mr.On("authorizations", func() {
@@ -550,6 +555,7 @@ func testHandlerParams(w http.ResponseWriter, r *http.Request, p httprouter.Para
 	}
 }
 
+// Fakes an expected valid request.
 func testRequest(t *testing.T, router http.Handler, r *http.Request) {
 	w := new(httptest.ResponseRecorder)
 	u := r.URL
@@ -587,6 +593,7 @@ func TestAll(t *testing.T) {
 	}
 }
 
+// Fakes an expected not found request.
 func requestNotFound(t *testing.T, method, path string) {
 	r, _ := http.NewRequest(method, path, nil)
 	w := new(httptest.ResponseRecorder)
@@ -605,6 +612,9 @@ func TestNotFound(t *testing.T) {
 	requestNotFound(t, "DELETE", "/pulls")
 }
 
+// Builds a map with all the missing methods from githubAPI.
+// This assures no extra routes are created. Combined with TestAll,
+// we make sure everything was created properly.
 func TestOpposite(t *testing.T) {
 	routes := make(map[string][]string)
 	for _, route := range githubAPI {

@@ -1,3 +1,4 @@
+// Copyright (c) 2014 Dario Castañé. Licensed under the MIT License.
 package medeina
 
 import (
@@ -8,18 +9,27 @@ import (
 	"net/http"
 )
 
-type Router struct {
+// Internal router struct. It can be useful to keep Medeina
+// router-agnostic.
+type router struct {
 	*httprouter.Router
 }
 
+// Medeina is a goddess willing to help you with your trees... of routes.
+// Allow it to be part of your chain of HTTP Handlers and she will handle
+// all those messy branches that your once-used-to-be-simple router got.
 type Medeina struct {
-	router  *Router
+	router  *router
 	methods *lane.Stack
 	path    *lane.Deque
 }
 
+// Medeina closures definition.
 type Handle func()
 
+// HTTP Methods available as constants.
+// We could use strings but it was cleaner to force
+// specefic values in an enum-like fashion.
 type Method string
 
 const (
@@ -30,6 +40,8 @@ const (
 	DELETE = "DELETE"
 )
 
+// Joins a deque using slashes. This is not a
+// generic function.
 func joinDeque(s *lane.Deque) string {
 	var (
 		buffer bytes.Buffer
@@ -51,15 +63,15 @@ func joinDeque(s *lane.Deque) string {
 }
 
 var (
-	// Make sure the Router conforms with the http.Handle interface
+	// Make sure this conforms with the http.Handle interface
 	// as in julienschmidt/httprouter.
 	_ http.Handler = (*Medeina)(nil)
 )
 
-// Returns a new initialized Router with default httprouter's one.
+// Returns a new initialized Medeina tree routing with default httprouter's one.
 func NewMedeina() *Medeina {
 	return &Medeina{
-		router: &Router{
+		router: &router{
 			httprouter.New(),
 		},
 		methods: lane.NewStack(),
@@ -67,52 +79,63 @@ func NewMedeina() *Medeina {
 	}
 }
 
-func (m *Medeina) handle(method Method, handles []Handle) {
+// Core logic of handling routes in a tree.
+func (m *Medeina) handle(method Method, handle Handle) {
 	m.methods.Push(method)
-	for _, handle := range handles {
-		handle()
-	}
+	handle()
 	m.methods.Pop()
 }
 
-func (m *Medeina) GET(handles ...Handle) {
+// Switches context to use GET method as default in the closure.
+// You can override for a route while using Is, setting which
+// methods you want.
+func (m *Medeina) GET(handles Handle) {
 	m.handle("GET", handles)
 }
 
-func (m *Medeina) POST(handles ...Handle) {
+// Switches context to use POST method as default in the closure.
+func (m *Medeina) POST(handles Handle) {
 	m.handle("POST", handles)
 }
 
-func (m *Medeina) PUT(handles ...Handle) {
+// Switches context to use PUT method as default in the closure.
+func (m *Medeina) PUT(handles Handle) {
 	m.handle("PUT", handles)
 }
 
-func (m *Medeina) PATCH(handles ...Handle) {
+// Switches context to use PATCH method as default in the closure.
+func (m *Medeina) PATCH(handles Handle) {
 	m.handle("PATCH", handles)
 }
 
-func (m *Medeina) DELETE(handles ...Handle) {
+// Switches context to use DELETE method as default in the closure.
+func (m *Medeina) DELETE(handles Handle) {
 	m.handle("DELETE", handles)
 }
 
-func (m *Medeina) On(path string, handles ...Handle) {
+// Adds a new subpath to the current context. Everything under the
+// closure will use all the previously set path as root for their
+// URLs.
+func (m *Medeina) On(path string, handle Handle) {
 	m.path.Append(path)
-	for _, handle := range handles {
-		handle()
-	}
+	handle()
 	m.path.Pop()
 }
 
+// As On but using a function which accepts a routing tree as parameter.
+// This will be useful to split routes definition in several functions.
 func (m *Medeina) OnFunc(path string, handle func(*Medeina)) {
 	m.path.Append(path)
 	handle(m)
 	m.path.Pop()
 }
 
+// Sets a canonical path. A canonical path means no further entries are in the path.
 func (m *Medeina) Is(path string, handle httprouter.Handle, methods ...Method) {
 	m.path.Append(path)
 	fullPath := joinDeque(m.path)
 	m.path.Pop()
+	// If any method is provided, it overrides the default one.
 	if len(methods) > 0 {
 		for _, method := range methods {
 			sm := string(method)
@@ -127,6 +150,7 @@ func (m *Medeina) Is(path string, handle httprouter.Handle, methods ...Method) {
 	}
 }
 
+// Makes the routing tree implement the http.Handler interface.
 func (m *Medeina) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	m.router.ServeHTTP(w, r)
 }
