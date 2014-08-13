@@ -1,4 +1,4 @@
-# medeina [![Build Status][1]][2] [![GoDoc](https://godoc.org/github.com/imdario/medeina?status.svg)](https://godoc.org/github.com/imdario/medeina) 
+# medeina [![Build Status][1]][2] [![GoDoc](https://godoc.org/github.com/imdario/medeina?status.svg)](https://godoc.org/github.com/imdario/medeina) [![Coverage Status](https://img.shields.io/coveralls/imdario/medeina.svg)](https://coveralls.io/r/imdario/medeina)
 
 [1]: https://travis-ci.org/imdario/medeina.png
 [2]: https://travis-ci.org/imdario/medeina
