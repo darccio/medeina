@@ -1,4 +1,4 @@
-# Medeina [![Build Status][1]][2] [![GoDoc](https://godoc.org/github.com/imdario/medeina?status.svg)](https://godoc.org/github.com/imdario/medeina) [![docs examples](https://sourcegraph.com/api/repos/github.com/imdario/medeina/.badges/docs-examples.png)](https://sourcegraph.com/github.com/imdario/medeina) [![dependencies](https://sourcegraph.com/api/repos/github.com/imdario/medeina/.badges/dependencies.png)](https://sourcegraph.com/github.com/imdario/medeina)
+# Medeina [![Build Status][1]][2] [![GoDoc](https://godoc.org/github.com/imdario/medeina?status.svg)](https://godoc.org/github.com/imdario/medeina) [![Coverage Status](https://img.shields.io/coveralls/imdario/medeina.svg)](https://coveralls.io/r/imdario/medeina) [![docs examples](https://sourcegraph.com/api/repos/github.com/imdario/medeina/.badges/docs-examples.png)](https://sourcegraph.com/github.com/imdario/medeina) [![dependencies](https://sourcegraph.com/api/repos/github.com/imdario/medeina/.badges/dependencies.png)](https://sourcegraph.com/github.com/imdario/medeina)
 
 [1]: https://travis-ci.org/imdario/medeina.png
 [2]: https://travis-ci.org/imdario/medeina
