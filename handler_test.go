@@ -32,7 +32,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "This is a list")
 }
 
-func TestEmbeddedNegroni(t *testing.T) {
+func TestHandlers(t *testing.T) {
 	testRequests(t, "GET", "/api/v1/events/", http.StatusOK)
 	testRequests(t, "GET", "/api/v1/events/xlistx", http.StatusNotFound)
 	testRequests(t, "GET", "/api/v1/events/list", http.StatusOK)
