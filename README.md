@@ -1,9 +1,9 @@
-# Medeina [![Build Status][1]][2] [![GoDoc](https://godoc.org/github.com/imdario/medeina?status.svg)](https://godoc.org/github.com/imdario/medeina)
+# Medeina [![Build Status][1]][2] [![GoDoc](https://godoc.org/github.com/imdario/medeina?status.svg)](https://godoc.org/github.com/imdario/medeina) [![Coverage Status](https://img.shields.io/coveralls/imdario/medeina.svg)](https://coveralls.io/r/imdario/medeina) [![docs examples](https://sourcegraph.com/api/repos/github.com/imdario/medeina/.badges/docs-examples.png)](https://sourcegraph.com/github.com/imdario/medeina) [![dependencies](https://sourcegraph.com/api/repos/github.com/imdario/medeina/.badges/dependencies.png)](https://sourcegraph.com/github.com/imdario/medeina)
 
 [1]: https://travis-ci.org/imdario/medeina.png
 [2]: https://travis-ci.org/imdario/medeina
 
-[Medeina](https://github.com/imdario/medeina) is a Go routing tree based on [HttpRouter](https://github.com/julienschmidt/httprouter) and inspired by Ruby's [Roda](http://roda.jeremyevans.net/) and [Cuba](http://cuba.is/). It allows to define your routes as a tree, operating on the current route at any point of the tree.
+[Medeina](https://github.com/imdario/medeina) is a Go routing tree based on [HttpRouter](https://github.com/julienschmidt/httprouter) and inspired by Ruby's [Roda](http://roda.jeremyevans.net/) and [Cuba](http://cuba.is/). It allows to define the HTTP routes of your web application as a tree, operating on the current route at any point of the tree.
 
 As stated in Roda's website, "this allows you to have much DRYer code". All the routes can have all the features of HttpRouter: named paramaters, catch-all parameters, etc.
 
@@ -58,16 +58,16 @@ And this for a quick and dirty "REST-like" API (ignore the fact that I'm using a
         r.On(endpoint, func() {
             r.GET(func() {
                 r.Is(":id", Model)
-            }
+            })
             r.POST(func() {
                 r.Is("", Model)
-            }
+            })
             r.PUT(func() {
                 r.Is("", Model)
-            }
+            })
             r.DELETE(func() {
                 r.Is(":id", Model)
-            }
+            })
         })
     }
 
