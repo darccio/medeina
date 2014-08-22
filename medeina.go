@@ -169,6 +169,7 @@ func (m *Medeina) Handler(path string, handle http.Handler, methods ...Method) {
 	m.path.Append(path)
 	fullPath := joinDeque(m.path)
 	m.path.Pop()
+	// If any method is provided, it overrides the default one.
 	if len(methods) > 0 {
 		for _, method := range methods {
 			sm := string(method)

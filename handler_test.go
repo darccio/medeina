@@ -15,10 +15,14 @@ func init() {
 
 func loadStandard() http.Handler {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+	mux.HandleFunc("/api/v1/events/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/api/v1/events/" {
+			http.NotFound(w, r)
+			return
+		}
 		fmt.Fprint(w, "This is the home page")
 	})
-	mux.Handle("/list", http.HandlerFunc(list))
+	mux.HandleFunc("/api/v1/events/list", list)
 	mr := NewMedeina()
 	mr.OnHandler("api/v1/events", mux)
 	return mr
@@ -30,8 +34,8 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 func TestEmbeddedNegroni(t *testing.T) {
 	testRequests(t, "GET", "/api/v1/events/", http.StatusOK)
+	testRequests(t, "GET", "/api/v1/events/xlistx", http.StatusNotFound)
 	testRequests(t, "GET", "/api/v1/events/list", http.StatusOK)
-	testRequests(t, "GET", "/api/v1/events/listx", http.StatusNotFound)
 }
 
 func testRequests(t *testing.T, method, path string, expectedStatus int) {
@@ -41,7 +45,7 @@ func testRequests(t *testing.T, method, path string, expectedStatus int) {
 	r.RequestURI = u.RequestURI()
 	standard.ServeHTTP(w, r)
 	if w.Code != expectedStatus {
-		t.Errorf("Expected route %s %s found: Code=%d", method, u, w.Code)
+		t.Errorf("Expected %d for route %s %s found: Code=%d", expectedStatus, method, u, w.Code)
 		panic(t)
 	}
 }
