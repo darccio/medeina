@@ -40,6 +40,8 @@ const (
 	DELETE = "DELETE"
 )
 
+var Methods = []Method{ GET, POST, PUT, PATCH, DELETE }
+
 // Joins a deque using slashes. This is not a
 // generic function.
 func joinDeque(s *lane.Deque) string {
@@ -130,6 +132,16 @@ func (m *Medeina) OnFunc(path string, handle func(*Medeina)) {
 	m.path.Pop()
 }
 
+// As On but using a function which accepts a standard http.Handler,
+// delegating further route handling to the handler. It adds a HttpRouter
+// catch-all matcher called 'medeina_subpath'.
+// This will be useful to split routes definition in several functions.
+func (m *Medeina) OnHandler(path string, handle http.Handler) {
+	m.path.Append(path)
+	m.Handler("*medeina_subpath", handle, Methods...)
+	m.path.Pop()
+}
+
 // Sets a canonical path. A canonical path means no further entries are in the path.
 func (m *Medeina) Is(path string, handle httprouter.Handle, methods ...Method) {
 	m.path.Append(path)
@@ -147,6 +159,27 @@ func (m *Medeina) Is(path string, handle httprouter.Handle, methods ...Method) {
 			panic(fmt.Errorf("you cannot set an endpoint outside a HTTP method scope or without passing methods by parameter"))
 		}
 		m.router.Handle(string(method.(Method)), fullPath, handle)
+	}
+}
+
+// As Is but delegateing on a standard http.Handler.
+// There is no equivalent functions for specific HTTP methods, so you must use
+// this in order to add standard http.Handlers.
+func (m *Medeina) Handler(path string, handle http.Handler, methods ...Method) {
+	m.path.Append(path)
+	fullPath := joinDeque(m.path)
+	m.path.Pop()
+	if len(methods) > 0 {
+		for _, method := range methods {
+			sm := string(method)
+			m.router.Handler(sm, fullPath, handle)
+		}
+	} else {
+		method := m.methods.Head()
+		if method == nil {
+			panic(fmt.Errorf("you cannot set an endpoint outside a HTTP method scope or without passing methods by parameter"))
+		}
+		m.router.Handler(string(method.(Method)), fullPath, handle)
 	}
 }
 
