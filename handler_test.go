@@ -15,16 +15,19 @@ func init() {
 
 func loadStandard() http.Handler {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/api/v1/events/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/api/v1/events/" {
+	//mux.HandleFunc("/api/v1/events/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		//if r.URL.Path != "/api/v1/events/" {
+		if r.URL.Path != "/" {
 			http.NotFound(w, r)
 			return
 		}
 		fmt.Fprint(w, "This is the home page")
 	})
-	mux.HandleFunc("/api/v1/events/list", list)
+	//mux.HandleFunc("/api/v1/events/list", list)
+	mux.HandleFunc("/list", list)
 	mr := NewMedeina()
-	mr.OnHandler("api/v1/events", mux)
+	mr.OnHandler("api/v1/events", HandlerPathPrefix("/api/v1/events", mux))
 	return mr
 }
 

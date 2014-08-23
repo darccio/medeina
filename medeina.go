@@ -7,6 +7,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/oleiade/lane"
 	"net/http"
+	"net/url"
+	"strings"
 )
 
 // Internal router struct. It can be useful to keep Medeina
@@ -182,6 +184,22 @@ func (m *Medeina) Handler(path string, handle http.Handler, methods ...Method) {
 		}
 		m.router.Handler(string(method.(Method)), fullPath, handle)
 	}
+}
+
+// Utility function to use with http.Handler compatible routers. Modifies
+// the request's URL in order to make subrouters relative to the prefix.
+// If you use a router as subrouter without this they need to match the full
+// path.
+func HandlerPathPrefix(prefix string, handle http.Handler) http.Handler {
+	if !strings.HasPrefix(prefix, "/") {
+		prefix = fmt.Sprintf("/%s", prefix)
+	}
+	return http.HandlerFunc(func (w http.ResponseWriter, r *http.Request) {
+		old := r.URL
+		r.URL, _ = url.ParseRequestURI(strings.Replace(old.Path, prefix, "", 1))
+		handle.ServeHTTP(w, r)
+		r.URL = old
+	})
 }
 
 // Makes the routing tree implement the http.Handler interface.
