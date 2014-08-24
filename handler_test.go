@@ -28,6 +28,7 @@ func loadStandard() http.Handler {
 	mux.HandleFunc("/list", list)
 	mr := NewMedeina()
 	mr.OnHandler("api/v1/events", HandlerPathPrefix("/api/v1/events", mux))
+	mr.OnMux("api/v1/events2", mux)
 	return mr
 }
 
@@ -39,6 +40,10 @@ func TestHandlers(t *testing.T) {
 	testRequests(t, "GET", "/api/v1/events/", http.StatusOK)
 	testRequests(t, "GET", "/api/v1/events/xlistx", http.StatusNotFound)
 	testRequests(t, "GET", "/api/v1/events/list", http.StatusOK)
+
+	testRequests(t, "GET", "/api/v1/events2/", http.StatusOK)
+	testRequests(t, "GET", "/api/v1/events2/xlistx", http.StatusNotFound)
+	testRequests(t, "GET", "/api/v1/events2/list", http.StatusOK)
 }
 
 func testRequests(t *testing.T, method, path string, expectedStatus int) {
