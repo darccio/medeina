@@ -34,6 +34,8 @@ type Handle func()
 // specefic values in an enum-like fashion.
 type Method string
 
+type Params httprouter.Params
+
 const (
 	GET    = "GET"
 	POST   = "POST"
