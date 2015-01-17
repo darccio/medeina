@@ -42,7 +42,7 @@ const (
 	DELETE = "DELETE"
 )
 
-var Methods = []Method{ GET, POST, PUT, PATCH, DELETE }
+var Methods = []Method{GET, POST, PUT, PATCH, DELETE}
 
 // Joins a deque using slashes. This is not a
 // generic function.
@@ -194,7 +194,7 @@ func HandlerPathPrefix(prefix string, handle http.Handler) http.Handler {
 	if !strings.HasPrefix(prefix, "/") {
 		prefix = fmt.Sprintf("/%s", prefix)
 	}
-	return http.HandlerFunc(func (w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		old := r.URL
 		r.URL, _ = url.ParseRequestURI(strings.Replace(old.Path, prefix, "", 1))
 		handle.ServeHTTP(w, r)
