@@ -3,7 +3,7 @@
 package medeina
 
 import (
-	"github.com/julienschmidt/httprouter"
+	"net/http"
 )
 
 // We need an object that implements the http.Handler interface.
