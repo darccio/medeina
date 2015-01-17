@@ -144,6 +144,22 @@ func (m *Medeina) OnHandler(path string, handle http.Handler) {
 	m.path.Pop()
 }
 
+
+// As OnHandler for subrouters. It's a convenience function. These two
+// calls are equivalent:
+//
+// m.OnHandler("api/v1/events", HandlerPathPrefix("/api/v1/events", mux))
+// m.OnMux("api/v1/events", mux)
+func (m *Medeina) OnMux(path string, handle http.Handler) {
+	var path_slash string
+	if path[0] != '/' {
+		path_slash = "/" + path
+	} else {
+		path_slash = path
+	}
+	m.OnHandler(path, HandlerPathPrefix(path_slash, handle))
+}
+
 // Sets a canonical path. A canonical path means no further entries are in the path.
 func (m *Medeina) Is(path string, handle httprouter.Handle, methods ...Method) {
 	m.path.Append(path)
